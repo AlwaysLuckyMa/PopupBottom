@@ -10,6 +10,8 @@
   <img src="gif/timeSelect.gif" alt="示例3">
 </div>
 
+# 一行代码即可调用！
+
 ## 如何使用
 
 ### 1, 继承 PopupBottomVC
