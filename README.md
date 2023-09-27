@@ -4,6 +4,8 @@
 
 ##### 方便之处在于，可以弹出 Xib 创建的 UIViewController，只需要继承 PopupBottomVC。
 
+#### GIF 示例 (不挂 VPN 查看不了 GIF)
+
 <div style="display: flex; justify-content: space-between;">
   <img src="gif/circle.gif" alt="示例1">
   <img src="gif/loginP.gif" alt="示例2">
