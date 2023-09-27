@@ -41,6 +41,9 @@ class CustomVC: PopupBottomVC {
 ```swift
    let pushVC = CustomVC()
    popupBottomVC(pushVC)
+
+   popupBottomVC(pushVC) {
+   }
 ```
 
 #### 3, 关闭 PopupBottomVC
@@ -92,6 +95,9 @@ class CustomVC: PopupBottomVC {
 ```swift
    let pushVC = CustomVC()
    popupBottomVC(pushVC)
+
+   popupBottomVC(pushVC) {
+   }
 ```
 
 #### 3, Close PopupBottomVC
