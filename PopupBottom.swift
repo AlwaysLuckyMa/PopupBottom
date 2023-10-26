@@ -7,7 +7,13 @@
 
 import UIKit
 
+public protocol PopupDismissDelegate: AnyObject {
+    func hiddenPopupBottomView()
+}
+
 public class PopupBottom: UIPresentationController {
+    weak var dismissDelegate: PopupDismissDelegate?
+
     private let inSCREEN_WIDTH = UIScreen.main.bounds.size.width
     private let inSCREEN_HEIGHT = UIScreen.main.bounds.size.height
     private var tempVC: UIViewController?
@@ -31,11 +37,13 @@ public class PopupBottom: UIPresentationController {
             currentViewHeight = vc.currentViewHeight
             isAddGestures = vc.isAddGestures
             isShowBlackView = vc.isShowBlackView
+            dismissDelegate = vc
         } else {
             tempVC = presentedViewController
             currentViewHeight = UIScreen.main.bounds.width
             isAddGestures = true
             isShowBlackView = true
+            dismissDelegate = presentedViewController as? PopupBottomVC
         }
 
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
@@ -76,7 +84,7 @@ public class PopupBottom: UIPresentationController {
 
     @objc func onTap(recognizer: UIPanGestureRecognizer) {
         let translation = recognizer.translation(in: tempVC?.view)
-        var newCenter = CGPoint(x: (recognizer.view?.center.x)!, y: (recognizer.view?.center.y)! + translation.y)
+        var newCenter = CGPoint(x: recognizer.view?.center.x ?? 0, y: recognizer.view?.center.y ?? 0 + translation.y)
         switch recognizer.state {
         case .changed:
             newCenter.y = max(inSCREEN_HEIGHT - currentViewHeight + recognizer.view!.frame.size.height / 2, newCenter.y)
@@ -86,16 +94,16 @@ public class PopupBottom: UIPresentationController {
             break
         case .ended:
             if newCenter.y < (inSCREEN_HEIGHT - currentViewHeight + recognizer.view!.frame.size.height / 2 + 100) {
-                UIView.animate(withDuration: 0.25) { [self] in
-                    tempVC?.view.frame = CGRect(x: 0, y: inSCREEN_HEIGHT - currentViewHeight, width: inSCREEN_WIDTH, height: currentViewHeight)
+                UIView.animate(withDuration: 0.25) { [weak self] in
+                    self?.tempVC?.view.frame = CGRect(x: 0, y: (self?.inSCREEN_HEIGHT ?? 0) - (self?.currentViewHeight ?? 0), width: self?.inSCREEN_WIDTH ?? 0, height: self?.currentViewHeight ?? 0)
                 }
             } else {
-                UIView.animate(withDuration: 0.25) { [self] in
-                    tempVC?.view.frame = CGRect(x: 0, y: inSCREEN_HEIGHT, width: inSCREEN_WIDTH, height: currentViewHeight)
-                } completion: { [self] _ in
-                    tempVC?.view.removeFromSuperview()
-                    blackView.removeFromSuperview()
-                    sendDismissController()
+                UIView.animate(withDuration: 0.25) { [weak self] in
+                    self?.tempVC?.view.frame = CGRect(x: 0, y: self?.inSCREEN_HEIGHT ?? 0, width: self?.inSCREEN_WIDTH ?? 0, height: self?.currentViewHeight ?? 0)
+                } completion: { [weak self] _ in
+                    self?.tempVC?.view.removeFromSuperview()
+                    self?.blackView.removeFromSuperview()
+                    self?.sendDismissController()
                 }
             }
             break
@@ -104,12 +112,34 @@ public class PopupBottom: UIPresentationController {
         }
     }
 
-    override public var frameOfPresentedViewInContainerView: CGRect {
-        return CGRect(x: 0, y: UIScreen.main.bounds.height - currentViewHeight, width: UIScreen.main.bounds.width, height: currentViewHeight)
+    @objc public func sendDismissController() {
+        presentedViewController.dismiss(animated: true) { [weak self] in
+            self?.dismissDelegate?.hiddenPopupBottomView()
+        }
+    }
+}
+
+public protocol PopupBottomVCProtocol {
+    var currentViewHeight: CGFloat { get }
+    var isAddGestures: Bool { get }
+    var isShowBlackView: Bool { get }
+}
+
+public class PopupBottomVC: UIViewController, PopupBottomVCProtocol, PopupDismissDelegate {
+    public var currentViewHeight: CGFloat { UIScreen.main.bounds.height }
+    public var isAddGestures: Bool { true }
+    public var isShowBlackView: Bool { true }
+
+    public func hiddenPopupBottomView() {}
+
+    func hiddenPopupBottomVC() {
+        dismiss(animated: true, completion: nil)
     }
 
-    @objc public func sendDismissController() {
-        presentedViewController.dismiss(animated: true, completion: nil)
+    func hiddenPopupBottomVC(completion: (() -> Void)?) {
+        dismiss(animated: true) {
+            completion?()
+        }
     }
 }
 
@@ -133,20 +163,5 @@ extension UIViewController: UIViewControllerTransitioningDelegate {
 
     public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         return PopupBottom(presentedViewController: presented, presenting: presenting)
-    }
-}
-
-public protocol PopupBottomVCProtocol {
-    var currentViewHeight: CGFloat { get }
-    var isAddGestures: Bool { get }
-    var isShowBlackView: Bool { get }
-}
-
-public class PopupBottomVC: UIViewController, PopupBottomVCProtocol {
-    public var currentViewHeight: CGFloat { UIScreen.main.bounds.height }
-    public var isAddGestures: Bool { true }
-    public var isShowBlackView: Bool { true }
-    func hiddenPopupBottomVC() {
-        dismiss(animated: true, completion: nil)
     }
 }
