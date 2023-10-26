@@ -13,7 +13,6 @@ public protocol PopupDismissDelegate: AnyObject {
 
 public class PopupBottom: UIPresentationController {
     weak var dismissDelegate: PopupDismissDelegate?
-
     private let inSCREEN_WIDTH = UIScreen.main.bounds.size.width
     private let inSCREEN_HEIGHT = UIScreen.main.bounds.size.height
     private var tempVC: UIViewController?
@@ -84,7 +83,7 @@ public class PopupBottom: UIPresentationController {
 
     @objc func onTap(recognizer: UIPanGestureRecognizer) {
         let translation = recognizer.translation(in: tempVC?.view)
-        var newCenter = CGPoint(x: recognizer.view?.center.x ?? 0, y: recognizer.view?.center.y ?? 0 + translation.y)
+        var newCenter = CGPoint(x: recognizer.view!.center.x, y: recognizer.view!.center.y + translation.y)
         switch recognizer.state {
         case .changed:
             newCenter.y = max(inSCREEN_HEIGHT - currentViewHeight + recognizer.view!.frame.size.height / 2, newCenter.y)
@@ -110,6 +109,10 @@ public class PopupBottom: UIPresentationController {
         default:
             break
         }
+    }
+
+    override public var frameOfPresentedViewInContainerView: CGRect {
+        return CGRect(x: 0, y: UIScreen.main.bounds.height - currentViewHeight, width: UIScreen.main.bounds.width, height: currentViewHeight)
     }
 
     @objc public func sendDismissController() {
