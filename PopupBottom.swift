@@ -1,8 +1,8 @@
 //
 //  PopupBottom.swift
-//  YZBJGHW
+//  PopupBottom
 //
-//  Created by satoshi_umaM1 on 2024/7/2.
+//  Created by Matsonga on 2024/10/15.
 //
 
 import UIKit
