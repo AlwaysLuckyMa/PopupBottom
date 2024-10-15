@@ -1,11 +1,65 @@
 //
 //  PopupBottom.swift
-//  PopupBottom
+//  YZBJGHW
 //
-//  Created by AlwaysLuckyMa on 2023/01/03.
+//  Created by satoshi_umaM1 on 2024/7/2.
 //
 
 import UIKit
+
+public protocol PopupBottomVCProtocol {
+    var currentViewHeight: CGFloat { get }
+    var isAddGestures: Bool { get }
+    var isShowBlackView: Bool { get }
+}
+
+public class PopupBottomVC: UIViewController, PopupBottomVCProtocol, PopupDismissDelegate {
+    override public var preferredStatusBarStyle: UIStatusBarStyle {
+        return .darkContent
+    }
+
+    public var currentViewHeight: CGFloat {
+        return UIScreen.main.bounds.height
+    }
+
+    public var isAddGestures: Bool { true }
+    public var isShowBlackView: Bool { true }
+
+    public func hiddenPopupBottomView() {}
+
+    func popHiddenBottomVC() {
+        dismiss(animated: true, completion: nil)
+    }
+
+    func popHiddenBottomVC(completion: (() -> Void)?) {
+        dismiss(animated: true) {
+            completion?()
+        }
+    }
+}
+
+extension UIViewController: UIViewControllerTransitioningDelegate {
+    public func popupBottomVC(_ vc: PopupBottomVC) {
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = self
+        present(vc, animated: true) { [weak vc] in
+            vc?.transitioningDelegate = nil
+        }
+    }
+
+    public func popupBottomVC(_ vc: PopupBottomVC, completion: (() -> Void)?) {
+        vc.modalPresentationStyle = .custom
+        vc.transitioningDelegate = self
+        present(vc, animated: true) { [weak vc] in
+            vc?.transitioningDelegate = nil
+            completion?()
+        }
+    }
+
+    public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        return PopupBottom(presentedViewController: presented, presenting: presenting)
+    }
+}
 
 public protocol PopupDismissDelegate: AnyObject {
     func hiddenPopupBottomView()
@@ -39,7 +93,7 @@ public class PopupBottom: UIPresentationController {
             dismissDelegate = vc
         } else {
             tempVC = presentedViewController
-            currentViewHeight = UIScreen.main.bounds.width
+            currentViewHeight = UIScreen.main.bounds.height
             isAddGestures = true
             isShowBlackView = true
             dismissDelegate = presentedViewController as? PopupBottomVC
@@ -119,52 +173,5 @@ public class PopupBottom: UIPresentationController {
         presentedViewController.dismiss(animated: true) { [weak self] in
             self?.dismissDelegate?.hiddenPopupBottomView()
         }
-    }
-}
-
-public protocol PopupBottomVCProtocol {
-    var currentViewHeight: CGFloat { get }
-    var isAddGestures: Bool { get }
-    var isShowBlackView: Bool { get }
-}
-
-public class PopupBottomVC: UIViewController, PopupBottomVCProtocol, PopupDismissDelegate {
-    public var currentViewHeight: CGFloat { UIScreen.main.bounds.height }
-    public var isAddGestures: Bool { true }
-    public var isShowBlackView: Bool { true }
-
-    public func hiddenPopupBottomView() {}
-
-    func hiddenPopupBottomVC() {
-        dismiss(animated: true, completion: nil)
-    }
-
-    func hiddenPopupBottomVC(completion: (() -> Void)?) {
-        dismiss(animated: true) {
-            completion?()
-        }
-    }
-}
-
-extension UIViewController: UIViewControllerTransitioningDelegate {
-    public func popupBottomVC(_ vc: PopupBottomVC) {
-        vc.modalPresentationStyle = .custom
-        vc.transitioningDelegate = self
-        present(vc, animated: true) { [weak vc] in
-            vc?.transitioningDelegate = nil
-        }
-    }
-
-    public func popupBottomVC(_ vc: PopupBottomVC, completion: (() -> Void)?) {
-        vc.modalPresentationStyle = .custom
-        vc.transitioningDelegate = self
-        present(vc, animated: true) { [weak vc] in
-            vc?.transitioningDelegate = nil
-            completion?()
-        }
-    }
-
-    public func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        return PopupBottom(presentedViewController: presented, presenting: presenting)
     }
 }
