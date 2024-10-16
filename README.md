@@ -53,8 +53,7 @@ class CustomVC: PopupBottomVC {
         return false
     }
 
-    override func viewDidLoad() {
-    }
+    override func viewDidLoad() {}
 }
 ```
 
@@ -64,12 +63,11 @@ class CustomVC: PopupBottomVC {
    let pushVC = CustomVC()
 
    // 视图消失回调
-   public func hiddenPopupBottomView() {}
+   hiddenPopupBottomView() {}
 
    popupBottomVC(pushVC)
 
-   popupBottomVC(pushVC) {
-   }
+   popupBottomVC(pushVC) {}
 ```
 
 #### 3, 关闭 PopupBottomVC
@@ -106,8 +104,7 @@ class CustomVC: PopupBottomVC {
         return false
     }
 
-    override func viewDidLoad() {
-    }
+    override func viewDidLoad() {}
 }
 ```
 
@@ -116,13 +113,13 @@ class CustomVC: PopupBottomVC {
 ```swift
    let pushVC = CustomVC()
 
-   // ビューが閉じたときのコールバック
-   public func hiddenPopupBottomView() {}
-
    popupBottomVC(pushVC)
 
-   popupBottomVC(pushVC) {
-   }
+   popupBottomVC(pushVC) {}
+
+   // ビューが閉じたときのコールバック
+   hiddenPopupBottomView() {}
+
 ```
 
 #### 3, PopupBottomVC を閉じる
@@ -165,8 +162,7 @@ class CustomVC: PopupBottomVC {
         return false
     }
 
-    override func viewDidLoad() {
-    }
+    override func viewDidLoad() {}
 }
 ```
 
@@ -175,13 +171,12 @@ class CustomVC: PopupBottomVC {
 ```swift
    let pushVC = CustomVC()
 
-   // View disappearance callback
-   public func hiddenPopupBottomView() {}
-
    popupBottomVC(pushVC)
 
-   popupBottomVC(pushVC) {
-   }
+   popupBottomVC(pushVC) {}
+
+   // View disappearance callback
+   public func hiddenPopupBottomView() {}
 ```
 
 #### 3, Close PopupBottomVC
