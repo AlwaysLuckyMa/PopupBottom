@@ -1,4 +1,7 @@
-# 由于项目里的各种弹出框特别多，每次加载一个 window 在隐藏，或者在 View 里加一个 View 嵌套很复杂，还容易出问题，就自己自定义了一个 present 做弹出框，降低了开发时间。方便之处在于，可以弹出 Xib 创建的 UIViewController，只需要继承 PopupBottomVC。
+# PopupBottom
+
+### 由于项目里的弹框特别多，每次加载一个 window 在隐藏，或者在 View 里嵌套一个 View 很繁琐，就自己写了一个 present 做弹出框，降低了开发时间。
+### 方便之处在于，可以弹出 Xib 创建的 UIViewController，只需要继承 PopupBottomVC。
 
 ————————————————————— 2024.10.16 新加了方法回调 ————————————————————
 
