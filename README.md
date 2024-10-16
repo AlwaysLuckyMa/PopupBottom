@@ -62,12 +62,12 @@ class CustomVC: PopupBottomVC {
 ```swift
    let pushVC = CustomVC()
 
-   // 视图消失回调
-   hiddenPopupBottomView() {}
-
    popupBottomVC(pushVC)
 
    popupBottomVC(pushVC) {}
+
+   // 视图消失回调
+   hiddenPopupBottomView() {}
 ```
 
 #### 3, 关闭 PopupBottomVC
