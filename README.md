@@ -8,10 +8,14 @@
 ```swift
 
 /// 回调里 end 结束 立刻执行
+/// コールバックで end が終了するとすぐに実行
 public func popPanEnd() { }
 
 /// 回调里 change 立刻执行
 /// - Parameter point: 添加视图后转换的 point
+
+/// コールバックで change が発生するとすぐに実行
+/// - Parameter point: ビューを追加後に変換された point
 public func popPanChange(_ point: CGPoint) { }
 
 ```
@@ -73,6 +77,60 @@ class CustomVC: PopupBottomVC {
 ```swift
    hiddenPopupBottomVC()
 ```
+
+# PopupBottom が便利なら、ぜひ Star をお願いします！
+
+##### プロジェクト内ではさまざまなポップアップが多く、毎回 window をロードして非表示にしたり、View に View をネストするのは複雑で、問題が発生しやすかったため、自分でカスタムした present を使ってポップアップを作ることにしました。これで開発時間が大幅に短縮されました。
+##### 便利な点は、Xib で作成した UIViewController をポップアップできるところです。PopupBottomVC を継承するだけで OK です。
+
+# 1行コードで呼び出し可能！
+
+## 使用方法
+
+### 1, PopupBottomVC を継承
+
+```swift
+class CustomVC: PopupBottomVC {
+    // エリアの高さを設定します。デフォルトでは設定不要です。
+    override var currentViewHeight: CGFloat {
+        return SCREEN_HEIGHT
+    }
+
+    // ジェスチャーを追加するかどうか。デフォルトでは追加されます。
+    override var isAddGestures: Bool {
+        return false
+    }
+
+    // 背景色を表示するかどうか。デフォルトは黒の半透明背景です。
+    override var isShowBlackView: Bool {
+        return false
+    }
+
+    override func viewDidLoad() {
+    }
+}
+```
+
+#### 2, PopupBottomVC を呼び出す
+
+```swift
+   let pushVC = CustomVC()
+
+   // ビューが閉じたときのコールバック
+   public func hiddenPopupBottomView() {}
+
+   popupBottomVC(pushVC)
+
+   popupBottomVC(pushVC) {
+   }
+```
+
+#### 3, PopupBottomVC を閉じる
+
+```swift
+   hiddenPopupBottomVC()
+```
+
 
 # If PopupBottom is helpful, please give it a Star!
 
@@ -137,4 +195,3 @@ class CustomVC: PopupBottomVC {
 ##### If you have any questions or concerns, please contact me via email or QQ!
 
 E-mail：matsonga@163.com
-QQ：937496430
