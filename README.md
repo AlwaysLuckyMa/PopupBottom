@@ -66,14 +66,15 @@ class CustomVC: PopupBottomVC {
 
    popupBottomVC(pushVC) {}
 
-   // 视图消失回调
-   hiddenPopupBottomView() {}
 ```
 
 #### 3, 关闭 PopupBottomVC
 
 ```swift
    hiddenPopupBottomVC()
+
+   // 视图消失回调
+   hiddenPopupBottomView() {}
 ```
 
 # PopupBottom が便利なら、ぜひ Star をお願いします！
@@ -117,15 +118,15 @@ class CustomVC: PopupBottomVC {
 
    popupBottomVC(pushVC) {}
 
-   // ビューが閉じたときのコールバック
-   hiddenPopupBottomView() {}
-
 ```
 
 #### 3, PopupBottomVC を閉じる
 
 ```swift
    hiddenPopupBottomVC()
+
+   // ビューが閉じたときのコールバック
+   hiddenPopupBottomView() {}
 ```
 
 
@@ -174,15 +175,15 @@ class CustomVC: PopupBottomVC {
    popupBottomVC(pushVC)
 
    popupBottomVC(pushVC) {}
-
-   // View disappearance callback
-   public func hiddenPopupBottomView() {}
 ```
 
 #### 3, Close PopupBottomVC
 
 ```swift
    hiddenPopupBottomVC()
+
+   // View disappearance callback
+   hiddenPopupBottomView() {}
 ```
 
 ## 如有问题或疑问，请通过电子邮件或 QQ 联系我！
