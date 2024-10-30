@@ -186,7 +186,7 @@ class CustomVC: PopupBottomVC {
    hiddenPopupBottomView() {}
 ```
 
-## 如有问题或疑问，请通过电子邮件或 QQ 联系我！
+## 如有问题或疑问，请通过电子邮件联系我！
 
 ##### If you have any questions or concerns, please contact me via email!
 
